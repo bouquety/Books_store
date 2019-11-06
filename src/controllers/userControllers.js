@@ -4,6 +4,56 @@ const Users = require('../models/user'),
 env = require('../environement')
 
 
+
+exports.deleteUsers = (req, res) => {
+    const data = (req.body.email !== undefined) ? {
+        email: req.body.email,
+    } : res.status(400).send("Veuillez rentrez un email")
+Users.findOneAndRemove({email: req.body.email}).then(user => {
+    if(user){
+        res.status(201).send("User supprimer ")                    
+    }
+    else {
+        res.status(500).send("User not exist")
+    }
+}
+    ).catch(
+        err =>res.status(500).send(err)
+    )
+}
+
+exports.updateUsers = (req,res) => {
+    bcrypt.hash(req.body.password, 5, function( err, bcryptedPassword){
+        const data = (req.body.email !== undefined) ? {
+            email: req.body.email,
+            password : bcryptedPassword,
+            username : req.body.username
+        } : res.status(201).send("Aucune modification")
+
+        data.tokens = [{
+            token : jwt.sign({
+                email: data.email
+            }, 
+            env.jwt, {
+                expiresIn: '72h'
+            })
+    }]
+
+        Users.findOneAndUpdate({email: req.body.email_modif}, { "$set": { "email": data.email , "password": data.password, "username": data.username, "tokens": data.tokens}},{new: true, omitUndefined : true}).then(user => {
+            if(user){
+                res.status(201).send("User modifier ")                    
+            }
+            else {
+                res.status(500).send("User not exist")
+            }
+        }
+            ).catch(
+                err =>res.status(500).send(err)
+            )
+                  
+    })
+}
+
 exports.inscription = (req, res) => {
     if (req.body.email !== undefined && req.body.password !== undefined && req.body.username !== undefined){
         bcrypt.hash(req.body.password, 5, function( err, bcryptedPassword){
