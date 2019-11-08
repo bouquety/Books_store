@@ -131,7 +131,7 @@ exports.motdepasseForgot = (req, res) => {
         service: "Gmail",
         auth: {
             user: "mangas.store.imie@gmail.com",
-            pass: "YOUNGreezy972"
+            pass: "IMIE_paris"
         }
     });
 
