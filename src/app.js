@@ -2,8 +2,7 @@ const express = require('express'), // Import express
     app = express(), //instance express
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
-    env = require('./environement'),
-    route = express.Router()
+    env = require('./environement')
 
 mongoose.connect(env.bdd.mongo.url, {
     useNewUrlParser: true,
@@ -17,9 +16,6 @@ app.use(bodyParser.urlencoded({
 
 app.use('/user', require('./routes/user'))
 app.use('/book', require('./routes/book'))
-
-
-
 
 app.listen(env.port, function() {
         console.log("Run serve")

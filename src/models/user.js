@@ -38,6 +38,12 @@ let UserSchema = new mongoose.Schema({
 
     },
 
+    isactive:{
+        type: Boolean,
+        default: true,
+
+    },
+
     dateInscription:{
         type: Date,
     },

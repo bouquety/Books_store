@@ -31,7 +31,7 @@ let BookSchema = new mongoose.Schema({
             type: String,
             required: false,
         },
-        userId: {
+        userName: {
             type: String,
             required: false,
         },
