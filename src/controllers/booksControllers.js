@@ -66,7 +66,8 @@ exports.listBooks = (req, res) => {
 exports.deleteBooks = (req, res) => {
     const data = (req.body.title !== undefined) ? {
         title: req.body.title,
-    } : res.status(400).send("Veuillez rentrez un email")
+    } : res.status(400).send("Veuillez rentrez un titre")
+
 Books.findOneAndRemove({title: req.body.title}).then(book => {
     if(book){
         res.status(201).send("Book supprimer ")                    

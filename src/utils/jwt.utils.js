@@ -15,7 +15,7 @@ module.exports = {
                 if(jwtToken != null)
                 Useremail = jwtToken.email
             }catch(err){
-                return res.statuts(400).send("ssssss")
+                return res.statuts(400).send("Mauvais")
             }
         }
         return Useremail;

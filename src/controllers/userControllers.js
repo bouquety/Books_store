@@ -73,6 +73,7 @@ exports.updateUsers = (req,res) => {
 },
 
 exports.inscription = (req, res) => {
+    console.log(req.body.email)
     if (req.body.email !== undefined && req.body.password !== undefined && req.body.username !== undefined){
         bcrypt.hash(req.body.password, 5, function( err, bcryptedPassword){
             const data = (req.body.email !== undefined) ? {
@@ -96,7 +97,7 @@ exports.inscription = (req, res) => {
                       Users.create(data).then (user => 
                         res.status(201).json(user)                        
                         ).catch(
-                            err =>res.status(500).send("L'adresse e-mail ou l'username existe dèja veuillez rentrez une autre adresse e-mail ou un autre username")
+                            err =>res.status(501).send("L'adresse e-mail ou l'username existe dèja veuillez rentrez une autre adresse e-mail ou un autre username")
                         )
         })
     }
@@ -153,9 +154,8 @@ exports.motdepasseForgot = (req, res) => {
             }
             smtpTransport.sendMail(mail, function(error, response){
                 if(error){
-                    res.redirect('/user/userforgot/');
-                    return res.status(500).send("Erreur lors de l'envoie du mail!");
                     console.log(error);
+                    return res.status(500).send(error);
                 }else{
                     return res.status(200).send("Mail envoyé avec succès!")
                 }
